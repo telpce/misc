@@ -19,31 +19,30 @@ $shutdown_body = @"
 $jsonData = Invoke-WebRequest https://api.steamcmd.net/v1/info/2394010
 $parsedData = $jsonData  | ConvertFrom-Json
 $data = $parsedData.data.2394010
-$public_build_id = $data.depots.branches.public.buildid
+# $public_build_id = $data.depots.branches.public.buildid
+$win = $data.depots.2394011
+$public_win_gid = $win.manifests.public.gid
 
-$temp = C:\dedicated_pl\steamcmd +login anonymous +app_status 2394010 +quit
-$local_build_id = [regex]::Match($temp, 'BuildID (\d+)').Groups[1].Value
+$steamcmd = C:\dedicated_pl\steamcmd +login anonymous +app_status 2394010 +quit
+$line = $steamcmd | Select-String '2394011 :'
+$local_win_gid = [regex]::Match($line, 'manifest (\d+)').Groups[1].Value
+#$local_build_id = [regex]::Match($steamcmd, 'BuildID (\d+)').Groups[1].Value
 
-#$response = Invoke-RestMethod "http://localhost:8212/v1/api/info" -Method 'GET' -Headers $headers
-#$response.version  # v0.2.1.0
-
-#
 $players = Invoke-RestMethod "http://localhost:8212/v1/api/players" -Method 'GET' -Headers $headers
 if ($players.players.Count -eq 0) {
 
-  if ($local_build_id -lt $public_build_id) {
+  if ($local_win_gid -ne $public_win_gid) {
 
-      Invoke-RestMethod "http://localhost:8212/v1/api/shutdown" -Method 'POST' -Headers $headers -Body $shutdown_body
-      Start-Sleep -Seconds 10
+    Invoke-RestMethod "http://localhost:8212/v1/api/shutdown" -Method 'POST' -Headers $headers -Body $shutdown_body
+    Start-Sleep -Seconds 10
 
-      # backup
-      tar.exe -a -cf "C:\dedicated_pl\steamapps\common\PalServer\Pal\Saved$(get-date -f yyyy-MM-dd).zip" -C C:\dedicated_pl\steamapps\common\PalServer\Pal Saved
-      # update
-      C:\dedicated_pl\steamcmd +login anonymous +app_update 2394010 validate +quit
+    # backup
+    tar.exe -a -cf "C:\dedicated_pl\steamapps\common\PalServer\Pal\Saved$(get-date -f yyyy-MM-dd).zip" -C C:\dedicated_pl\steamapps\common\PalServer\Pal Saved
+    # update
+    C:\dedicated_pl\steamcmd +login anonymous +app_update 2394010 validate +quit
 
-      Start-Process C:\dedicated_pl\steamapps\common\PalServer\PalServer.exe -ArgumentList "-publiclobby","-port=$port"
+    Start-Process C:\dedicated_pl\steamapps\common\PalServer\PalServer.exe -ArgumentList "-publiclobby","-port=$port"
   }
   else {Write-Host "No updates"}
 }
 else{Write-Host "Someone is here"}
-
