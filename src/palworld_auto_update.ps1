@@ -1,3 +1,4 @@
+$ErrorActionPreference = 'Stop'
 # Load windows environment variable
 $adminPassword = $Env:PALADMINPASSWORD
 $port = $Env:PALPORT
