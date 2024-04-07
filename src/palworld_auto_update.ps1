@@ -5,10 +5,10 @@ $port = $Env:PALPORT
 
 # REST API settings
 $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f "admin",$adminPassword)))
-$headers = @{
-  Authorization=("Basic {0}" -f $base64AuthInfo)
-  Content='application/json'
-}
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Accept", "application/json")
+$headers.Add("Authorization", "Basic $base64AuthInfo")
+
 $shutdown_body = @"
 {
   `"waittime`": 4,
