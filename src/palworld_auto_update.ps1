@@ -16,8 +16,8 @@ $shutdown_body = @"
 }
 "@
 
-$players = Invoke-RestMethod "http://localhost:8212/v1/api/players" -Method 'GET' -Headers $headers
-if ($players.players.Count -eq 0) {
+$metrics = Invoke-RestMethod "http://localhost:8212/v1/api/metrics" -Method 'GET' -Headers $headers
+if ($metrics.currentplayernum -eq 0) {
 
   # Update settings
   $jsonData = Invoke-WebRequest https://api.steamcmd.net/v1/info/2394010
