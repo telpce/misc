@@ -39,7 +39,7 @@ if ($metrics.currentplayernum -eq 0) {
     Start-Sleep -Seconds 10
 
     # backup
-    tar.exe --zstd -cf "$installPath\steamapps\common\PalServer\Pal\Saved$(get-date -f yyyy-MM-dd).tar.zst" -C $installPath\steamapps\common\PalServer\Pal Saved
+    tar.exe -a -cf "$installPath\steamapps\common\PalServer\Pal\Saved$(get-date -f yyyy-MM-dd).zip" -C $installPath\steamapps\common\PalServer\Pal Saved
     # update
     &$installPath\steamcmd +login anonymous +app_update 2394010 validate +quit
 
