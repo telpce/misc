@@ -1,8 +1,8 @@
 $ErrorActionPreference = 'Stop'
 # Load windows environment variable
-$adminPassword = $Env:PALADMINPASSWORD
-$port = $Env:PALPORT
-$installPath = "C:\dedicated_pl"
+$adminPassword = $Env:PALADMINPASSWORD # example password
+$port = $Env:PALPORT # example 8211
+$installPath = $Env:PALPATH # example C:\dedicated_palworld
 
 # REST API settings
 $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f "admin",$adminPassword)))
