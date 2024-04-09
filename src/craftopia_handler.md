@@ -28,7 +28,7 @@ https://tech.palworldgame.com/ja/getting-started/deploy-dedicated-server
 craftopia_handler.cmdとcraftopia_handler.ps1は同じフォルダに入れてください  
 craftopia_handler.cmdを実行すると、少しだけ仕込みをした状態でCraftopiaサーバーが起動します
 
-Craftopiaを止めたくなったらcraftopia_commander.cmdを実行すると、Craftopiaにstop命令を出せます(とても遅いのでたっぷり3分くらい猶予を持たせてください)  
+Craftopiaを止めたくなったらcraftopia_commander.cmdを実行すると、Craftopiaにstop命令を出せます(停止までとても遅いのでたっぷり3分くらい猶予を持たせてください)  
 なおcraftopia_commander.ps1もcraftopia_commander.cmdと同じフォルダに入れてください
 
 handlerとcommanderは別のフォルダでもいいです。
