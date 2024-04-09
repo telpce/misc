@@ -1,3 +1,5 @@
+Craftopiaを外部プロセスから止める事を実現するスクリプトです。  
+直接Craftopiaにコマンドを打つ以外に止める方法が分からなかったので作りました。
 
 ## 使い方
 
@@ -7,7 +9,7 @@
 
 https://tech.palworldgame.com/ja/getting-started/deploy-dedicated-server
 
-この通りに実行するとパルワールドがインストールされるので、IDは
+この通りに実行するとパルワールドがインストールされてしまうので、IDは
 
 * 1670340
 
