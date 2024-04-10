@@ -7,7 +7,7 @@ $pinfo.StartInfo.FileName ="$installPath\steamapps\common\CraftopiaDedicatedServ
 $pinfo.StartInfo.UseShellExecute = $false
 $pinfo.StartInfo.RedirectStandardInput = $true 
 [Void]$pinfo.Start() 
-$input = $pinfo.StandardInput
+$stdin = $pinfo.StandardInput
 
 $udp = New-Object Net.Sockets.UdpClient -ArgumentList 6588
 $commander = $null
@@ -16,7 +16,8 @@ while($line -ne "stop")
 {
   $buffer = $udp.Receive([ref]$commander)
   $line = [System.Text.Encoding]::UTF8.GetString($buffer)
-  $input.WriteLine($line)
+  $stdin.WriteLine($line)
 }
-
+$udp.Close()
 [Void]$pinfo.WaitForExit()
+$pinfo.Close()
