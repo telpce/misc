@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    volumes:
+      - ./db:/var/lib/postgresql/data:Z
+    env_file:
+      - db.env
+
+  redis:
+    image: redis
+    restart: always
+
+  app:
+    image: nextcloud:stable-fpm
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:z
+      - ./data:/var/www/html/data
+      - ./config:/var/www/html/config
+    environment:
+      - POSTGRES_HOST=db
+      - REDIS_HOST=redis
+      - PHP_UPLOAD_LIMIT=32G
+      - PHP_MEMORY_LIMIT=1024M
+    env_file:
+      - db.env
+    depends_on:
+      - db
+      - redis
+
+  web:
+    build: ./web
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud:/var/www/html:z,ro
+    depends_on:
+      - app
+
+  cron:
+    image: nextcloud:stable-fpm
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:z
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
+volumes:
+  nextcloud:
