@@ -30,15 +30,15 @@ hdr = {
 configuration = Configuration(access_token=os.environ['LINE_CHANNEL_ACCESS_TOKEN'])
 line_id = os.environ['YOUR_USER_ID']
 # handler = WebhookHandler(os.environ['LINE_CHANNEL_SECRET'])
-input = os.environ['PASTEBIN_CSV_URL'] # sample: https://pastebin.com/raw/fiGthbuY
+input = os.environ['PASTEBIN_CSV_URL'] # sample: https://pastebin.com/raw/U3uvArrT
 scraping_table = dynamodb.Table(os.environ['DYNAMODB_TABLE_NAME'])
 
 def lambda_handler(event, context):
 
     response = urlopen(Request(input,headers=hdr))
-    soup = BeautifulSoup(response,"lxml")
-    dump = soup.find("p").text
-    for l in dump.splitlines():
+    response_data = response.read()
+
+    for l in response_data.decode("utf8").splitlines():
         column = l.split(",")
         alertAmznTrackingPrice(column[0],int(column[1]))
 
