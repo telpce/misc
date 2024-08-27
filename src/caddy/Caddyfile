@@ -1,0 +1,20 @@
+*.mysite.net {
+    tls {
+        dns cloudflare AAABBBCCCDDEEEFFFF
+    }
+
+	@drive host drive.mysite.net
+	handle @drive {
+		reverse_proxy 127.0.0.1:8080
+	}
+
+	@bitwarden host bitwarden.mysite.net
+	handle @bitwarden {
+		reverse_proxy 127.0.0.1:8999
+	}
+
+	# Fallback for otherwise unhandled domains
+	handle {
+		abort
+	}
+}
