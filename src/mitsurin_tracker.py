@@ -125,7 +125,7 @@ def alertAmznTrackingPrice(amznURL, target):
     
     if 'Item' in response:
         item = response['Item']
-        old_price = item.get('Price')
+        old_price = int(item.get('Price'))
 
     response = scraping_table.put_item(
         Item={
@@ -135,7 +135,7 @@ def alertAmznTrackingPrice(amznURL, target):
         }
     )
     
-    if price > old_price:
+    if price >= old_price:
         return
 
     if price <= target:
