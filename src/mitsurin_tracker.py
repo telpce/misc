@@ -101,10 +101,14 @@ def amznTrackingPrice(amznURL):
             #
             try:
                 coupon = soup.find("label",{"style":"display:inline; font-weight: normal; cursor: pointer;"}).text
-                coupon = re.sub(r"\D", "", coupon)
-                result = int(price)-int(coupon)
-                return (result,title_string)
-                # %クーポンには対応してない(要サンプル)
+                discount = re.sub(r"\D", "", coupon)    #数字だけ抜き出し
+
+                if '%' in coupon:   # %クーポン
+                    result = int(price)-int((int(price)/int(discount)))
+                    return (result,title_string)
+                else:
+                    result = int(price)-int(discount)
+                    return (result,title_string)
             except: # クーポンなし
                 result = int(price)
                 return (result,title_string)
