@@ -39,6 +39,8 @@ def lambda_handler(event, context):
     response_data = response.read()
 
     for l in response_data.decode("utf8").splitlines():
+        if not l:
+            continue
         column = l.split(",")
         alertAmznTrackingPrice(column[0],int(column[1]))
 
