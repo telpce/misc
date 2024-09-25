@@ -3,18 +3,23 @@
         dns cloudflare AAABBBCCCDDEEEFFFF
     }
 
-	@drive host drive.mysite.net
-	handle @drive {
-		reverse_proxy 127.0.0.1:8080
-	}
+    @drive host drive.mysite.net
+    handle @drive {
+        reverse_proxy 127.0.0.1:8080
+    }
 
-	@bitwarden host bitwarden.mysite.net
-	handle @bitwarden {
-		reverse_proxy 127.0.0.1:8999
-	}
+    @dns host dns.mysite.net
+    handle @dns {
+            reverse_proxy {
+            to https://127.0.0.1:8443
+            transport http {
+                tls_server_name dns.mysite.net
+            }
+        }
+    }
 
-	# Fallback for otherwise unhandled domains
-	handle {
-		abort
-	}
+    # Fallback for otherwise unhandled domains
+    handle {
+        abort
+    }
 }
