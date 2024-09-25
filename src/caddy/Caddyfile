@@ -8,12 +8,12 @@
         reverse_proxy 127.0.0.1:8080
     }
 
-    @dns host dns.mysite.net
+    @dns host ssl.mysite.net
     handle @dns {
             reverse_proxy {
             to https://127.0.0.1:8443
             transport http {
-                tls_server_name dns.mysite.net
+                tls_server_name ssl.mysite.net
                 # tls_insecure_skip_verify # alternative
             }
         }
